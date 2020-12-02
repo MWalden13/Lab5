@@ -89,6 +89,7 @@ int p1=0;
 int be, bnq;
 int aa;
 int flush=0;//for branch and jump
+int branch_jump;//signal that the branch is being taken
 uint32_t INSTRUCTION_COUNT;
 uint32_t CYCLE_COUNT;
 uint32_t PROGRAM_SIZE; /*in words*/
