@@ -626,6 +626,11 @@ void EX()
     /*********************BEQ*********************/
         case 0x10000000:
 		sh = 1;
+		// if (branch == not taken) {
+		//	PC = PC + 4;
+		// }
+		// else {}
+			  
         break;
     /*********************BNE*********************/
         case 0x14000000:
@@ -1209,13 +1214,7 @@ void IF()
 		}
 		if(FW_LW==1)
 			p1=1;
-	}
-	
-	if (flush == 1) {
-		printf("New instruction flushed\n");
-	} 
-		
-	
+	}	
 
 }
 
