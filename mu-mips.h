@@ -90,7 +90,6 @@ int be, bnq;
 int aa;
 int flush=0;//for branch and jump
 int branch_jump;//signal that the branch is being taken
-int sh_branch = 0;//for condition in EX stage with 1 stall
 uint32_t INSTRUCTION_COUNT;
 uint32_t CYCLE_COUNT;
 uint32_t PROGRAM_SIZE; /*in words*/
