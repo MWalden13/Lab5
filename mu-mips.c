@@ -552,6 +552,13 @@ void EX()
 					printf("\nEX/MEM.ALUOutput = 0x%08x \n", EX_MEM.ALUOutput);
 					aa=1;
 					break;
+
+                    /****************JR function******************/
+                    case 0x00000008:
+                    break;
+                    /****************JALR function*****************/
+                    case 0x00000009:
+                    break;
 			}
 		break;
 		
@@ -613,9 +620,33 @@ void EX()
 		printf("\nEX/MEM.B = 0x%08x \n", IF_EX.imm);
 		printf("\nEX/MEM.ALUOutput = 0x%08x \n", EX_MEM.ALUOutput);
 		break;
-		
-	}
-	}
+
+    /*********************BEQ*********************/
+        case 0x10000000:
+        break;
+    /*********************BNE*********************/
+        case 0x14000000:
+        break;
+    /*********************BLEZ*********************/
+        case 0x18000000:
+        break;
+    /*********************BLTZ and BGEZ*********************/
+        case 0x04000000:
+        break;
+    /*********************BGTZ*********************/
+	    case 0x1C000000:
+        break;
+    /*********************J*********************/
+        case 0x08000000:
+        break;
+    /*********************JAL*********************/
+	    case 0x0C000000:
+        break;
+        
+   
+
+    }
+   }
 }
 
 /************************************************************/
@@ -808,7 +839,14 @@ void ID()
 					printf("\nID/EX.A = 0x%08x \n", IF_EX.A);
 					printf("\nID/EX.B = 0x%08x \n", IF_EX.B);
 					break;
-		
+
+        /************************************R TYPE JUMP INSTRUCTIONS******************************************************/
+                    /*******************JR*****************/
+                    case 0x00000008:
+                    break;
+                    /*******************JALR***************/
+                    case 0x00000009:
+		            break;
 		
 		}
 		
@@ -1111,6 +1149,29 @@ void ID()
 			}
 			printf("\nID/EX.A = 0x%08x \n", IF_EX.A);
 			printf("\nID/EX.imm = 0x%08x \n", IF_EX.imm);
+        break;
+
+/***********************************I type Branch and Jump Instructions(all except JR and JALR)***********************************/
+        /**********************BEQ***************/
+        case 0x10000000:
+        break;
+        /**********************BNE***************/
+        case 0x14000000:
+        break;
+        /**********************BLEZ**************/
+        case 0x18000000:
+        break;
+        /********************BLTZ and BGEZ******/ //both have the same front 6 bits, use bits 16-20 to determine
+        case 0x04000000:
+        break;
+        /**********************BGTZ**************/
+        case 0x1C000000:
+        break;
+        /**********************J*****************/
+        case 0x08000000:
+        break;
+        /**********************JAL***************/
+        case 0x0C000000:
 		break;
 		
 
