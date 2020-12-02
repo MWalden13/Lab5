@@ -467,6 +467,9 @@ void EX()
 			IF_EX.B=WB_Value;
 			sh_B=0;
 			sh=0;}
+		if(sh_branch == 1){
+			
+			}
 		}
 	if (p>=1){ // 2 stall
 		if(p==3){
@@ -555,11 +558,11 @@ void EX()
 
                     /****************JR function******************/
                     case 0x00000008:
-				sh = 1;
+				
                     break;
                     /****************JALR function*****************/
                     case 0x00000009:
-				sh = 1;
+				
                     break;
 			}
 		break;
@@ -625,7 +628,7 @@ void EX()
 
     /*********************BEQ*********************/
         case 0x10000000:
-		sh = 1;
+
 		// if (branch == not taken) {
 		//	PC = PC + 4;
 		// }
@@ -634,27 +637,27 @@ void EX()
         break;
     /*********************BNE*********************/
         case 0x14000000:
-		sh = 1;
+		
         break;
     /*********************BLEZ*********************/
         case 0x18000000:
-		sh = 1;
+		
         break;
     /*********************BLTZ and BGEZ*********************/
         case 0x04000000:
-		sh = 1;
+		
         break;
     /*********************BGTZ*********************/
 	case 0x1C000000:
-		sh = 1;	
+			
         break;
     /*********************J*********************/
         case 0x08000000:
-		sh = 1;
+		
         break;
     /*********************JAL*********************/
 	case 0x0C000000:
-        	sh = 1;
+        	
 	break;
         
    
@@ -858,10 +861,12 @@ void ID()
                     /*******************JR*****************/
                     case 0x00000008:
 				stallflag = 1;
+				sh = 1;
                     break;
                     /*******************JALR***************/
                     case 0x00000009:
 				stallflag = 1;
+				sh = 1;
 		            break;
 		
 		}
@@ -1171,30 +1176,37 @@ void ID()
         /**********************BEQ***************/
         case 0x10000000:
 			stallflag = 1;
+			sh = 1;
         break;
         /**********************BNE***************/
         case 0x14000000:
 			stallflag = 1;
+			sh = 1;
         break;
         /**********************BLEZ**************/
         case 0x18000000:
 			stallflag = 1;
+			sh = 1;
         break;
         /********************BLTZ and BGEZ******/ //both have the same front 6 bits, use bits 16-20 to determine
         case 0x04000000:
 			stallflag = 1;
+			sh = 1;
         break;
         /**********************BGTZ**************/
         case 0x1C000000:
 			stallflag = 1;
+			sh = 1;
         break;
         /**********************J*****************/
         case 0x08000000:
 			stallflag = 1;
+			sh = 1;
         break;
         /**********************JAL***************/
         case 0x0C000000:
 			stallflag = 1;
+			sh = 1;
 		break;
 		
 
@@ -1218,7 +1230,7 @@ void IF()
 		printf("\nIF/ID.IR=0x%08x \n", ID_IF.IR );
 		print_program(CURRENT_STATE.PC);
 		printf("\nIF/ID.PC=0x%08x\n", NEXT_STATE.PC);
-		if (stallflag ==1){
+		if (stallflag ==1 && sh == 0){
 			p=1;
 		}
 		if(FW_LW==1)
