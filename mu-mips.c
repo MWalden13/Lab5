@@ -1194,7 +1194,7 @@ void ID()
 /************************************************************/
 void IF()
 {	
-	if (p ==0 && p1 ==0 && flush == 0){
+	if (p == 0 && p1 == 0 && flush == 0){
 		ID_IF.IR  = mem_read_32(CURRENT_STATE.PC);
 		ID_PC = CURRENT_STATE.PC;
 		printf("\n**************************************Fetch Stage******************************************\n");
@@ -1210,6 +1210,11 @@ void IF()
 		if(FW_LW==1)
 			p1=1;
 	}
+	
+	if (flush == 1) {
+		printf("New instruction flushed\n");
+	} 
+		
 	
 
 }
