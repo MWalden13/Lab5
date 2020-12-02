@@ -626,13 +626,14 @@ void EX()
     /*********************BEQ*********************/
         case 0x10000000:
 
-		// if (branch == not taken) {
-		//	PC = PC + 4;
-			p = 0;
+		 //if (branch == not taken) {
+			//PC = PC + 4;
+			//p = 0;//can stop stalling
 		// }
-		// else {
-			PC = 
-		}
+		// else { //if branch is taken 
+			//PC = new PC
+		//	flush = 1;//EX stage is where flush would be set for all branch/jump instructions
+		//}
 			  
         break;
     /*********************BNE*********************/
@@ -652,7 +653,7 @@ void EX()
 			
         break;
     /*********************J*********************/
-        case 0x08000000:
+        case 0x08000000://the 
 		
         break;
     /*********************JAL*********************/
@@ -682,7 +683,12 @@ void ID()
 	uint32_t immediate_sign_decode;
 	uint32_t immediate_value_decode;
 	
-	if (p ==0 && p1 ==0){
+	if(flush == 1){
+		ID_IF.IR = 0;//I think this is all we need to do to flush out the ins + 1 instruction
+		
+	}
+	
+	else if (p ==0 && p1 ==0 && flush == 0){
     	IF_EX.IR = ID_IF.IR;
 	printf("\n**************************************Decode Stage*****************************************\n");
 	printf("\nID/EX.IR=0x%08x \n", IF_EX.IR);
@@ -1236,6 +1242,9 @@ void IF()
 		if(FW_LW==1)
 			p1=1;
 	}	
+	if (flush == 1){//by the time we get to the IF stage of the ins+2 instruction, if flush is 1, that means ins+1 has already been flushed in ID stage, so set flush=0 here
+		flush = 0;
+	}
 
 }
 
