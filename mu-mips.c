@@ -857,9 +857,11 @@ void ID()
         /************************************R TYPE JUMP INSTRUCTIONS******************************************************/
                     /*******************JR*****************/
                     case 0x00000008:
+				stallflag = 1;
                     break;
                     /*******************JALR***************/
                     case 0x00000009:
+				stallflag = 1;
 		            break;
 		
 		}
@@ -1168,24 +1170,31 @@ void ID()
 /***********************************I type Branch and Jump Instructions(all except JR and JALR)***********************************/
         /**********************BEQ***************/
         case 0x10000000:
+			stallflag = 1;
         break;
         /**********************BNE***************/
         case 0x14000000:
+			stallflag = 1;
         break;
         /**********************BLEZ**************/
         case 0x18000000:
+			stallflag = 1;
         break;
         /********************BLTZ and BGEZ******/ //both have the same front 6 bits, use bits 16-20 to determine
         case 0x04000000:
+			stallflag = 1;
         break;
         /**********************BGTZ**************/
         case 0x1C000000:
+			stallflag = 1;
         break;
         /**********************J*****************/
         case 0x08000000:
+			stallflag = 1;
         break;
         /**********************JAL***************/
         case 0x0C000000:
+			stallflag = 1;
 		break;
 		
 
