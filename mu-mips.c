@@ -726,7 +726,7 @@ void ID()
 	
 	if(flush == 1){
 		ID_IF.IR = 0;//I think this is all we need to do to flush out the ins + 1 instruction
-		
+		flush = 0;
 	}
 	
 	else if (p ==0 && p1 ==0 && flush == 0){
@@ -1267,7 +1267,7 @@ void ID()
 /************************************************************/
 void IF()
 {	
-	if (p == 0 && p1 == 0 && flush == 0){
+	if (p == 0 && p1 == 0){//I took the flush out here because I don't think flush should actually afffect the IF stage
 		ID_IF.IR  = mem_read_32(CURRENT_STATE.PC);
 		ID_PC = CURRENT_STATE.PC;
 		printf("\n**************************************Fetch Stage******************************************\n");
@@ -1283,9 +1283,6 @@ void IF()
 		if(FW_LW==1)
 			p1=1;
 	}	
-	if (flush == 1){//by the time we get to the IF stage of the ins+2 instruction, if flush is 1, that means ins+1 has already been flushed in ID stage, so set flush=0 here
-		flush = 0;
-	}
 
 }
 
