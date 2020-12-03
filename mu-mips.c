@@ -459,6 +459,44 @@ void MEM()
 		printf("\nMEM/WB.ALUOutput = 0x%08x \n", MEM_WB.ALUOutput);
 		break;
 		
+		/******************************************************I Branch/Jump Type***********************************************************************/
+	
+		case 0x10000000:	//BEQ
+		MEM_WB.ALUOutput = EX_MEM.ALUOutput;
+		printf("\nMEM/WB.ALUOutput = 0x%08x \n", MEM_WB.ALUOutput);
+		break;
+			
+		case 0x14000000:	//BNE
+		MEM_WB.ALUOutput = EX_MEM.ALUOutput;
+		printf("\nMEM/WB.ALUOutput = 0x%08x \n", MEM_WB.ALUOutput);
+		break;
+			
+		case 0x18000000:	//BLEZ
+		MEM_WB.ALUOutput = EX_MEM.ALUOutput;
+		printf("\nMEM/WB.ALUOutput = 0x%08x \n", MEM_WB.ALUOutput);	
+		break;
+			
+		case 0x04000000:	//BLTZ and BGEZ
+		MEM_WB.ALUOutput = EX_MEM.ALUOutput;
+		printf("\nMEM/WB.ALUOutput = 0x%08x \n", MEM_WB.ALUOutput);	
+		break;
+			
+		case 0x1C000000:	//BGTZ
+		MEM_WB.ALUOutput = EX_MEM.ALUOutput;
+		printf("\nMEM/WB.ALUOutput = 0x%08x \n", MEM_WB.ALUOutput);	
+		break;
+		
+		/*********************J*********************/
+       		case 0x08000000://the 
+		MEM_WB.ALUOutput = EX_MEM.ALUOutput;
+		printf("\nMEM/WB.ALUOutput = 0x%08x \n", MEM_WB.ALUOutput);	
+        	break;
+    		/*********************JAL*********************/
+		case 0x0C000000:
+		MEM_WB.ALUOutput = EX_MEM.ALUOutput;
+		printf("\nMEM/WB.ALUOutput = 0x%08x \n", MEM_WB.ALUOutput);	
+		break;
+        
 		/***********************************************************LW/SW-Type************************************************************************/
 		case 0xAC000000:  //For SW.
 		mem_write_32(EX_MEM.ALUOutput, EX_MEM.B);
@@ -732,7 +770,7 @@ void EX()
 				EX_MEM.imm = 0xFFFF0000 | IF_EX.imm;	//Sign extend	
 			}
 			target = EX_MEM.imm << 2;	//Shift left 2 bits
-			CURRENT_STATE.PC = CURRENT_STATE.PC + 4;	//Delay one instruction
+			CURRENT_STATE.PC = CURRENT_STATE.PC + 4;	//Delay one instruction//do we need this?
 			EX_MEM.ALUOutput = CURRENT_STATE.PC + target;	//Branch to target address with one instruction delay
 		}
         break;
