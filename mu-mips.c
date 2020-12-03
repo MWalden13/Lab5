@@ -376,6 +376,30 @@ void WB()
 		rdd=rt;
 		printf("\nREGS[rt] = 0x%08x \n", NEXT_STATE.REGS[rt]);
 		break;
+			
+	/******************************************************Branch/Jump Type***********************************************************************/
+	//Maybe don't have to do anything, no values to write back since it's just a branch/jump
+		case 0x10000000:	//BEQ
+			
+		break;
+			
+		case 0x14000000:	//BNE
+			
+		break;
+			
+		case 0x18000000:	//BLEZ
+			
+		break;
+			
+		case 0x04000000:	//BLTZ and BGEZ
+			
+		break;
+			
+		case 0x1C000000:	//BGTZ
+			
+		break;
+			
+		
 	
 	/***********************************************************LW/SW-Type************************************************************************/
 		case 0x8C000000:	//For LW.
