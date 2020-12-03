@@ -676,7 +676,28 @@ void EX()
         break;
     /*********************BLTZ and BGEZ*********************/
         case 0x04000000:
-		//WIll do tomorrow morning	
+		if (rt == 00000){	//BLTZ
+			if (EX_MEM.A >> 15){	//Take branch
+				flush = 1;
+				if (IF_EX.imm >> 15){	//Negative
+					EX_MEM.imm = 0xFFFF0000 | IF_EX.imm;	//Sign extend	
+				}
+				target = EX_MEM.imm << 2;	//Shift left 2 bits
+				CURRENT_STATE.PC = CURRENT_STATE.PC + 4;	//Delay one instruction
+				EX_MEM.ALUOutput = CURRENT_STATE.PC + target;	//Branch to target address with one instruction delay	
+			}
+		}
+		if (rt == 00001){	//BGEZ
+			if (!(EX_MEM.A >> 15) || EX_MEM.A == 0){	//Take branch
+				flush = 1;
+				if (IF_EX.imm >> 15){	//Negative
+					EX_MEM.imm = 0xFFFF0000 | IF_EX.imm;	//Sign extend	
+				}
+				target = EX_MEM.imm << 2;	//Shift left 2 bits
+				CURRENT_STATE.PC = CURRENT_STATE.PC + 4;	//Delay one instruction
+				EX_MEM.ALUOutput = CURRENT_STATE.PC + target;	//Branch to target address with one instruction delay	
+			}
+		}
 		
         break;
     /*********************BGTZ*********************/
