@@ -380,23 +380,38 @@ void WB()
 	/******************************************************Branch/Jump Type***********************************************************************/
 	//Maybe don't have to do anything, no values to write back since it's just a branch/jump
 		case 0x10000000:	//BEQ
-			
+		NEXT_STATE.PC = MEM_WB.ALUOutput;
+		printf("\n REGS[rt] = 0x%08x \n", NEXT_STATE.REGS[rt]);
 		break;
 			
 		case 0x14000000:	//BNE
-			
+		NEXT_STATE.PC = MEM_WB.ALUOutput;
+		printf("\n REGS[rt] = 0x%08x \n", NEXT_STATE.REGS[rt]);	
 		break;
 			
 		case 0x18000000:	//BLEZ
-			
+		NEXT_STATE.PC = MEM_WB.ALUOutput;
+		printf("\n REGS[rt] = 0x%08x \n", NEXT_STATE.REGS[rt]);	
 		break;
 			
 		case 0x04000000:	//BLTZ and BGEZ
-			
+		NEXT_STATE.PC = MEM_WB.ALUOutput;
+		printf("\n REGS[rt] = 0x%08x \n", NEXT_STATE.REGS[rt]);	
 		break;
 			
 		case 0x1C000000:	//BGTZ
-			
+		NEXT_STATE.PC = MEM_WB.ALUOutput;
+		printf("\n REGS[rt] = 0x%08x \n", NEXT_STATE.REGS[rt]);	
+		break;
+		 /*********************J*********************/
+        	case 0x08000000://the 
+		NEXT_STATE.PC = MEM_WB.ALUOutput;
+		printf("\n REGS[rt] = 0x%08x \n", NEXT_STATE.REGS[rt]);	
+        	break;
+    		/*********************JAL*********************/
+		case 0x0C000000:
+		NEXT_STATE.PC = MEM_WB.ALUOutput;
+		printf("\n REGS[rt] = 0x%08x \n", NEXT_STATE.REGS[rt]);	
 		break;
 			
 		
