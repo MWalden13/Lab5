@@ -458,6 +458,7 @@ void EX()
 	uint32_t rs;
 	uint32_t rt;
 	uint32_t rd;
+	uint32_t target; 
 	if (sh==1){ //1 stall
 		if(sh_A==1){
 			IF_EX.A=WB_Value;
@@ -555,11 +556,16 @@ void EX()
 
                     /****************JR function******************/
                     case 0x00000008:
-				
+			flush = 1;	//set flush variable to one so IF stage waits
+			EX_MEM.ALUOutput = IF_EX.A;	//ALUOutput = rs value
+			//CURRENT_STATE.PC = CURRENT_STATE.PC + 4;	//Delay one cycle?
+			//EX_MEM.ALUOutput = CURRENT_STATE.PC + 4;	//Program jumps to rs instruction address with 1 cycle delay
                     break;
                     /****************JALR function*****************/
                     case 0x00000009:
-				
+			flush = 1;	//Delay one cycle in IF
+			EX_MEM.ALUOutput = IF_EX.A;	//ALUOutput = rs value
+			EX_MEM_rd = CURRENT_STATE.PC + 4;	//rd needs two cycle delay, already have one cycle delay with flush 
                     break;
 			}
 		break;
@@ -625,7 +631,15 @@ void EX()
 
     /*********************BEQ*********************/
         case 0x10000000:
-
+		if (EX_MEM.A == EX_MEM.B){	//Branch take if rs = rt
+			flush = 1;
+			if (IF_EX.imm >> 15){	//Negative
+				EX_MEM.imm = 0xFFFF0000 | IF_EX.imm;	//Sign extend	
+			}
+			target = EX_MEM.imm << 2;	//Shift left 2 bits
+			CURRENT_STATE.PC = CURRENT_STATE.PC + 4;	//Delay one instruction
+			EX_MEM.ALUOutput = CURRENT_STATE.PC + target;	//Branch to target address with one instruction delay
+		}
 		 //if (branch == not taken) {
 			//PC = PC + 4;
 			//p = 0;//can stop stalling
@@ -638,27 +652,54 @@ void EX()
         break;
     /*********************BNE*********************/
         case 0x14000000:
-		
+		if (EX_MEM.A != EX_MEM.B){	//Branch take if rs != rt
+			flush = 1;
+			if (IF_EX.imm >> 15){	//Negative
+				EX_MEM.imm = 0xFFFF0000 | IF_EX.imm;	//Sign extend	
+			}
+			target = EX_MEM.imm << 2;	//Shift left 2 bits
+			CURRENT_STATE.PC = CURRENT_STATE.PC + 4;	//Delay one instruction
+			EX_MEM.ALUOutput = CURRENT_STATE.PC + target;	//Branch to target address with one instruction delay	
+		}
         break;
     /*********************BLEZ*********************/
         case 0x18000000:
-		
+		if (EX_MEM.A >> 15 || EX_MEM.A == 0){	//Branch take if sign bit is set or rs = 0
+			flush = 1;
+			if (IF_EX.imm >> 15){	//Negative
+				EX_MEM.imm = 0xFFFF0000 | IF_EX.imm;	//Sign extend	
+			}
+			target = EX_MEM.imm << 2;	//Shift left 2 bits
+			CURRENT_STATE.PC = CURRENT_STATE.PC + 4;	//Delay one instruction
+			EX_MEM.ALUOutput = CURRENT_STATE.PC + target;	//Branch to target address with one instruction delay
+		}
         break;
     /*********************BLTZ and BGEZ*********************/
         case 0x04000000:
+		//WIll do tomorrow morning	
 		
         break;
     /*********************BGTZ*********************/
 	case 0x1C000000:
-			
+		if (!(EX_MEM.A >>15) && EX_MEM.A != 0){	//Branch take if sign bit is not set and rs is not = to 0
+			flush = 1;
+			if (IF_EX.imm >> 15){	//Negative
+				EX_MEM.imm = 0xFFFF0000 | IF_EX.imm;	//Sign extend	
+			}
+			target = EX_MEM.imm << 2;	//Shift left 2 bits
+			CURRENT_STATE.PC = CURRENT_STATE.PC + 4;	//Delay one instruction
+			EX_MEM.ALUOutput = CURRENT_STATE.PC + target;	//Branch to target address with one instruction delay
+		}
         break;
     /*********************J*********************/
         case 0x08000000://the 
-		
+		flush = 1;
+		EX_MEM.ALUOutput = IF_EX.imm << 2;
         break;
     /*********************JAL*********************/
 	case 0x0C000000:
-        	
+		flush = 1;	//Delay one instruction
+        	EX_MEM.ALUOutput = IF_EX.imm << 2;	//output is immediate shifted left 2 bits
 	break;
         
    
